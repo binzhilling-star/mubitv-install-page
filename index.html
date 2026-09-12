@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MubiTV PRO - App Download</title>
+    <!-- Tailwind CSS for Layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300,0..1&display=block" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #ffffff; color: #1f1f1f; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .bottom-sheet-enter { transform: translateY(100%); }
+        .bottom-sheet-active { transform: translateY(0); transition: transform 0.3s ease-out; }
+    </style>
+</head>
+<body class="antialiased select-none" onload="fetchUpdateInfo()">
+
+    <!-- Top Navigation Bar -->
+    <nav class="sticky top-0 bg-white z-40 px-4 py-3 flex items-center justify-between">
+        <span class="material-symbols-outlined text-gray-700 cursor-pointer">arrow_back</span>
+        <div class="flex items-center gap-5 text-gray-700">
+            <span class="material-symbols-outlined cursor-pointer">search</span>
+            <span class="material-symbols-outlined cursor-pointer">more_vert</span>
+        </div>
+    </nav>
+
+    <!-- App Header Info -->
+    <header class="px-5 pt-2 pb-4 flex gap-5">
+        <div class="w-20 h-20 bg-gray-900 rounded-2xl flex items-center justify-center shadow flex-shrink-0 relative overflow-hidden">
+            <!-- App Logo Placeholder - Using an M icon to represent MubiTV -->
+            <span class="material-symbols-outlined text-white text-5xl">play_circle</span>
+        </div>
+        <div class="flex flex-col justify-center">
+            <h1 class="text-2xl font-bold text-gray-900 leading-tight">MubiTV PRO</h1>
+            <p class="text-[#01875f] font-medium text-sm mt-0.5">MubiTV</p>
+            <p class="text-gray-500 text-xs mt-1">Free · No ads</p>
+        </div>
+    </header>
+
+    <!-- Stats Row -->
+    <div class="flex justify-evenly items-center px-4 py-4 border-b border-gray-100">
+        <div class="flex flex-col items-center">
+            <p class="font-bold text-gray-900" id="app-version">...</p>
+            <p class="text-xs text-gray-500 mt-1">Version</p>
+        </div>
+        <div class="w-px h-8 bg-gray-200"></div>
+        <div class="flex flex-col items-center">
+            <p class="font-bold text-gray-900">24 MB</p>
+            <p class="text-xs text-gray-500 mt-1">Download size</p>
+        </div>
+        <div class="w-px h-8 bg-gray-200"></div>
+        <div class="flex flex-col items-center">
+            <p class="font-bold text-gray-900">5.0+</p>
+            <p class="text-xs text-gray-500 mt-1">Android</p>
+        </div>
+    </div>
+
+    <!-- Install Action -->
+    <div class="px-5 py-4">
+        <button onclick="openModal()" class="w-full bg-[#01875f] text-white font-medium text-sm py-2.5 rounded-full hover:bg-[#01704e] active:scale-[0.98] transition-all shadow-sm">
+            Install
+        </button>
+        <p class="text-center text-[11px] text-gray-500 mt-3 flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">devices</span>
+            Phones, tablets and Android TV
+        </p>
+    </div>
+
+    <!-- Screenshots Scroll -->
+    <div class="flex overflow-x-auto hide-scrollbar gap-3 px-5 py-2 snap-x">
+        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=300&h=600&fit=crop" class="w-40 h-[280px] rounded-xl object-cover snap-center bg-gray-100 shadow-sm border border-gray-100">
+        <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?q=80&w=300&h=600&fit=crop" class="w-40 h-[280px] rounded-xl object-cover snap-center bg-gray-100 shadow-sm border border-gray-100">
+        <img src="https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=300&h=600&fit=crop" class="w-40 h-[280px] rounded-xl object-cover snap-center bg-gray-100 shadow-sm border border-gray-100">
+    </div>
+
+    <!-- About this app -->
+    <section class="px-5 py-6">
+        <div class="flex justify-between items-center mb-3">
+            <h2 class="text-[17px] font-bold text-gray-900">About this app</h2>
+            <span class="material-symbols-outlined text-gray-700">arrow_forward</span>
+        </div>
+        <p class="text-sm text-gray-600 leading-relaxed">
+            Movies, series, live TV and radio in one app, built for the remote rather than the touchscreen. Browse by network or studio, resume where you left off, download for offline, and switch subtitles mid-episode.
+        </p>
+    </section>
+
+    <!-- What's new -->
+    <section class="px-5 py-2">
+        <h2 class="text-[17px] font-bold text-gray-900 mb-3">What's new</h2>
+        <p class="text-sm font-medium text-gray-800 mb-2" id="changelog-version">MubiTV PRO</p>
+        <p class="text-sm text-gray-600 leading-relaxed whitespace-pre-line" id="changelog-text">
+            Fetching latest updates...
+        </p>
+    </section>
+
+    <!-- App Info Grid -->
+    <section class="px-5 py-6 mb-8 border-t border-gray-100 mt-6">
+        <h2 class="text-[17px] font-bold text-gray-900 mb-4">App info</h2>
+        <div class="grid grid-cols-2 gap-y-6 gap-x-4 text-sm">
+            <div>
+                <p class="text-gray-900 font-medium">Version</p>
+                <p class="text-gray-500 mt-0.5" id="info-version">...</p>
+            </div>
+            <div>
+                <p class="text-gray-900 font-medium">Updated on</p>
+                <p class="text-gray-500 mt-0.5" id="info-date">Recently</p>
+            </div>
+            <div>
+                <p class="text-gray-900 font-medium">Requires Android</p>
+                <p class="text-gray-500 mt-0.5">5.0 and up</p>
+            </div>
+            <div>
+                <p class="text-gray-900 font-medium">Offered by</p>
+                <p class="text-gray-500 mt-0.5">MubiTV</p>
+            </div>
+            <div>
+                <p class="text-gray-900 font-medium">Installed from</p>
+                <p class="text-gray-500 mt-0.5">APK sideload</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL BACKDROP -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeModal()"></div>
+
+    <!-- BUILD SELECTOR MODAL (Bottom Sheet) -->
+    <div id="build-modal" class="fixed bottom-0 left-0 w-full bg-white rounded-t-3xl z-50 bottom-sheet-enter px-6 pb-8 pt-6">
+        <h3 class="text-[19px] font-bold text-gray-900">Choose a build</h3>
+        <p class="text-sm text-gray-500 mb-5 mt-1">Different Android devices use different processors.</p>
+        
+        <div class="flex flex-col gap-1">
+            <!-- 64-bit Recommended -->
+            <button onclick="downloadApp()" class="flex justify-between items-center py-4 border-b border-gray-100 active:bg-gray-50 transition-colors text-left">
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[15px] text-gray-900 font-medium">64-bit</span>
+                        <span class="text-[#01875f] bg-[#e6f4ef] text-[10px] font-bold px-1.5 py-0.5 rounded uppercase">Recommended</span>
+                    </div>
+                    <span class="text-xs text-gray-500 mt-1">Most phones and TV boxes</span>
+                </div>
+                <span class="text-sm text-gray-500">24 MB</span>
+            </button>
+
+            <!-- 32-bit -->
+            <button onclick="downloadApp()" class="flex justify-between items-center py-4 border-b border-gray-100 active:bg-gray-50 transition-colors text-left">
+                <div class="flex flex-col">
+                    <span class="text-[15px] text-gray-900 font-medium">32-bit</span>
+                    <span class="text-xs text-gray-500 mt-1">Older or budget devices</span>
+                </div>
+                <span class="text-sm text-gray-500">24 MB</span>
+            </button>
+
+            <!-- Universal -->
+            <button onclick="downloadApp()" class="flex justify-between items-center py-4 active:bg-gray-50 transition-colors text-left">
+                <div class="flex flex-col">
+                    <span class="text-[15px] text-gray-900 font-medium">Universal</span>
+                    <span class="text-xs text-gray-500 mt-1">Works on any device</span>
+                </div>
+                <span class="text-sm text-gray-500">24 MB</span>
+            </button>
+        </div>
+        
+        <div class="mt-4 flex justify-end">
+            <button onclick="closeModal()" class="text-[#01875f] font-medium text-sm px-4 py-2 rounded-full hover:bg-gray-50 transition-colors">Cancel</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let targetApkUrl = "";
+
+        // Fetch data from GitHub JSON using the raw content URL
+        async function fetchUpdateInfo() {
+            const rawJsonUrl = "https://raw.githubusercontent.com/binzhilling-star/update-pro.json/main/update-pro.json";
+            
+            try {
+                const response = await fetch(rawJsonUrl + "?t=" + new Date().getTime()); // cache buster
+                if (!response.ok) throw new Error("Network response was not ok");
+                
+                const data = await response.json();
+                
+                // Populate UI with fetched data
+                const version = data.versionName || "1.0.0";
+                document.getElementById('app-version').innerText = version;
+                document.getElementById('info-version').innerText = version;
+                document.getElementById('changelog-version').innerText = "MubiTV PRO v" + version;
+                
+                if (data.changelog) {
+                    document.getElementById('changelog-text').innerText = "✨ What's New\n" + data.changelog;
+                }
+                
+                // Store the download link for the button actions
+                if (data.update) {
+                    targetApkUrl = data.update;
+                }
+            } catch (error) {
+                console.error("Failed to fetch JSON:", error);
+                document.getElementById('changelog-text').innerText = "Unable to load latest changelog.";
+            }
+        }
+
+        // Trigger Download
+        function downloadApp() {
+            if (targetApkUrl) {
+                window.location.href = targetApkUrl;
+            } else {
+                alert("Download link is not available yet.");
+            }
+            closeModal();
+        }
+
+        // Modal Controls
+        const backdrop = document.getElementById('modal-backdrop');
+        const modal = document.getElementById('build-modal');
+
+        function openModal() {
+            backdrop.classList.remove('hidden');
+            // Trigger reflow
+            void backdrop.offsetWidth;
+            backdrop.classList.remove('opacity-0');
+            backdrop.classList.add('opacity-100');
+            
+            modal.classList.add('bottom-sheet-active');
+            modal.classList.remove('bottom-sheet-enter');
+        }
+
+        function closeModal() {
+            backdrop.classList.remove('opacity-100');
+            backdrop.classList.add('opacity-0');
+            
+            modal.classList.remove('bottom-sheet-active');
+            modal.classList.add('bottom-sheet-enter');
+            
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
